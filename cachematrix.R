@@ -9,8 +9,8 @@ makeCacheMatrix <- function(x = matrix()) {
                 x<<-y
                 inv<<-null
         }
-        ## create function
-        
+        ## create function  
+        ##   ddjg
         get <- function() x
         setInverse <- function(inverse) inv <<- solve(x) 
         getInverse <- function() inv
