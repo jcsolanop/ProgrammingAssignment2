@@ -2,22 +2,33 @@
 ##This function creates a special "matrix"
 ##object that can cache its inverse 
 
+
 makeCacheMatrix <- function(x = matrix()) {
+
+        ## first initiate the inverse to null         
+        inver<-NULL
         
-        inv<-NULL
+        # Here we create the set function to create the matrix
         set <-function(y){
                 x<<-y
-                inv<<-null
+                inver<<-NULL
         }
-        ## create function  
-        ##   ddjgcfghfgh
+        
+        ## Here we return the created matrix
         get <- function() x
-        setInverse <- function(inverse) inv <<- solve(x) 
-        getInverse <- function() inv
+        
+        ## Here we create the inverse of our matrix 
+        setInverse <- function(i) inver <<- solve(x) 
+        
+        ## And now we get (return) the inverse 
+        getInverse <- function() inver
+        
+        
         list(set = set,
              get = get,
              setInverse = setInverse,
              getInverse = getInverse)
+        
 }
 
 
@@ -26,16 +37,22 @@ makeCacheMatrix <- function(x = matrix()) {
 
 cacheSolve <- function(x, ...) {
         
+        ##Find if the inverse already calculated get t from the makecachematrix
+        ## for this we use the getInverse function we created 
+        inver <- x$getInverse()
         
-        
-        inv <- x$getInverse()
-        if (!is.null(inv)) {
-                message("getting cached data")
-                return(inv)
+        ##If it´s already calculated the it returns de inverse
+        if (!is.null (inver)) {
+                ## Do nothing 
+                
         }
-        mat <- x$get()
-        inv <- solve(mat, ...)
-        x$setInverse(inv)
-        inv
-        
+        else {
+                ##When the inverse is null then this process calculates it and
+                ##uses the setInverse function created on makecachematrix
+                mat <- x$get()
+                inver <- solve(mat, ...)
+                x$setInverse(inver)  
+        }
+       
+
 }
